@@ -1,16 +1,8 @@
-import http from "http";
-import router from "./router/index.js";
+import 'dotenv/config';
+import app from './src/app.js';
 
-const PORT = 3000;
+const PORT = process.env.PORT || null;
 
-const server = http.createServer((req, res) => {
-    res.writeHead(200, { "content-type": "text/plain" })
-
-    const responseText = router[req.url] || `Route not found`;
-
-    res.end(responseText);
-})
-
-server.listen(PORT, () => {
-    console.log(`Servidor iniciado na porta http://localhost:${PORT}`);
-})
+app.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}`);
+});
