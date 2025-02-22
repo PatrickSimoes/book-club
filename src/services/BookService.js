@@ -1,52 +1,33 @@
-import books from "../database/books.js"
+import { Book } from "../entities/book.js";
+import { AppDataSource } from "../config/data-source.js"; // ajuste o caminho conforme necessário
+
+const bookRepository = AppDataSource.getRepository(Book);
 
 const bookService = {
-    findOne: (id) => {
-        const findedBook = books.find(book => book.id == id);
-
-        if (!findedBook) {
-            return { message: `This id (${id}) Book is not found in library` }
-        }
-
-        return { message: `Book with id ${id} found`, data: findedBook };
+    async getAllBooks() {
+        return await bookRepository.find();
     },
 
-    findAll: () => {
-        return { message: "Returning all books", data: books };
+    async getBookById(id) {
+        return await bookRepository.findOneBy({ id });
     },
 
-    update: (id, bookData) => {
-        let bookIndex = books.findIndex(book => book.id == id);
-
-        if (bookIndex === -1) return { message: "Book not found" };
-
-        books[bookIndex] = { ...books[bookIndex], ...bookData };
-
-        return { message: `Book updated`, data: books };
+    async createBook(book) {
+        return await bookRepository.save(book);
     },
 
-    insert: (bookData) => {
-        const sortedBooks = [...books].sort((a, b) => b.id - a.id);
-        const newId = sortedBooks.length > 0 ? sortedBooks[0].id + 1 : 1;
-
-        const newBook = { id: newId, ...bookData };
-
-        books.push(newBook);
-
-        return { message: "Book created successfully", data: newBook };
+    // Adicionando o método insert
+    async insert(book) {
+        return await bookRepository.insert(book);
     },
 
-    delete: (id) => {
-        const index = books.findIndex(book => book.id == id);
+    async updateBook(id, book) {
+        return await bookRepository.update(id, book);
+    },
 
-        if (index === -1) {
-            return { message: `This id (${id}) is not found in the library` };
-        }
-
-        books.splice(index, 1);
-
-        return { message: `Book with id ${id} deleted`, data: books };
-    }
+    async deleteBook(id) {
+        return await bookRepository.delete(id);
+    },
 };
 
 export default bookService;

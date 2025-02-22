@@ -3,30 +3,54 @@ import bookService from "../services/BookService.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.json(bookService.findAll());
+router.get("/", async (req, res) => {
+    try {
+        const books = await bookService.getAllBooks();
+        res.json(books);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
-router.get("/:id", (req, res) => {
-    const { id } = req.params;
-    res.json(bookService.findOne(id));
+router.get("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const book = await bookService.getBookById(id);
+        res.json(book);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
-router.post("/", (req, res) => {
-    const bookData = req.body;
-
-    res.json(bookService.insert(bookData));
+router.post("/", async (req, res) => {
+    try {
+        const bookData = req.body;
+        const newBook = await bookService.createBook(bookData);
+        res.json(newBook);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
-router.put("/:id", (req, res) => {
-    const { id } = req.params;
-    const bookData = req.body;
-    res.json(bookService.update(id, bookData));
+router.put("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const bookData = req.body;
+        const result = await bookService.updateBook(id, bookData);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
-router.delete("/:id", (req, res) => {
-    const { id } = req.params;
-    res.json(bookService.delete(id));
+router.delete("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await bookService.deleteBook(id);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 export default router;
