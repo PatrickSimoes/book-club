@@ -39,6 +39,14 @@ class BookController {
 
         res.status(200).json({ message: "Book deleted", data: delted });
     };
+
+    static async findBooksByAuthor(authorId) {
+        const bookRepository = AppDataSource.getRepository(Book);
+        const books = await bookRepository.find({
+            where: { author: { id: authorId } }
+        });
+        return books;
+    }
 };
 
 export default BookController;

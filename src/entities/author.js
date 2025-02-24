@@ -7,7 +7,7 @@ export const Author = new EntitySchema({
         id: {
             primary: true,
             type: "uuid",
-            generated: "uuid" // O TypeORM gera automaticamente um UUID
+            generated: "uuid"
         },
         name: {
             type: "varchar",
@@ -16,6 +16,13 @@ export const Author = new EntitySchema({
         nationality: {
             type: "varchar",
             length: 255
+        },
+    },
+    relations: {
+        books: {
+            type: "one-to-many",
+            target: "Book",
+            inverseSide: "author"
         }
     }
 });

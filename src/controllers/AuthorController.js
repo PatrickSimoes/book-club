@@ -1,7 +1,7 @@
-import { author } from "../entities/author.js";
+import { Author } from "../entities/author.js";
 import { AppDataSource } from "../config/data-source.js"; // ajuste o caminho conforme necessário
 
-const authorRepository = AppDataSource.getRepository(author);
+const authorRepository = AppDataSource.getRepository(Author);
 
 class AuthorController {
     static async getAllAuthors(req, res) {

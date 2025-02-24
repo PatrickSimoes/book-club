@@ -7,13 +7,9 @@ export const Book = new EntitySchema({
         id: {
             primary: true,
             type: "uuid",
-            generated: "uuid" // O TypeORM gera automaticamente um UUID
+            generated: "uuid"
         },
         title: {
-            type: "varchar",
-            length: 255
-        },
-        author: {
             type: "varchar",
             length: 255
         },
@@ -26,6 +22,13 @@ export const Book = new EntitySchema({
         isAvailable: {
             type: "boolean",
             default: true
+        },
+    },
+    relations: {
+        author: {
+            type: "many-to-one",
+            target: "Author",
+            inverseSide: "books",
         }
     }
 });
