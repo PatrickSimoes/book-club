@@ -7,3 +7,5 @@ const PORT = process.env.PORT;
 connectDB().then(() => {
     app.listen(PORT, () => console.log(`🚀 Server is running at http://localhost:${PORT}`));
 });
+
+// alteração feita
